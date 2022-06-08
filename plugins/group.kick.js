@@ -1,24 +1,29 @@
-import { areJidsSameUser } from '@adiwajshing/baileys'
-let handler = async (m, { conn, participants }) => {
-    let users = m.mentionedJid.filter(u => !areJidsSameUser(u, conn.user.id))
-    let kickedUser = []
-    for (let user of users)
-        if (user.endsWith('@s.whatsapp.net') && !(participants.find(v => areJidsSameUser(v.id, user)) || { admin: true }).admin) {
-            const res = await conn.groupParticipantsUpdate(m.chat, [m.sender], "remove")
-            kickedUser.concat(res)
-            await delay(1 * 1000)
-        }
-    m.reply(`Succes kick ${kickedUser.map(v => '@' + v.split('@')[0])}`, null, { mentions: kickedUser })
-
+let handler = async (m, { conn, args }) => {
+         let members_id = groupMembers.map(v => v.jid)
+          let mentioned = members_id
+       let using = mentioned.filter(u => !(u == isOwner || u.includes(conn.user.jid)))
+                for (let member of using) {
+                if (member.endsWith('@s.whatsapp.net')) 
+                await delay(3000)
+                await conn.groupRemove(from, members_id)
+                }
+               await m.reply(m.chat, 'Sorry kena kick wkwkwk parah sih', m)
 }
-handler.help = ['kick', '-'].map(v => 'o' + v + ' @user')
-handler.tags = ['owner']
-handler.command = /^(okick|o-)$/i
-
+handler.help = ['kickall']
+handler.tags = ['group']
+handler.command = /^(kickall)$/i
+handler.rowner = true
 handler.owner = true
+handler.mods = false
+handler.premium = false
 handler.group = true
+handler.private = false
+
+handler.admin = true
 handler.botAdmin = true
 
-export default handler
+handler.fail = null
+handler.limit = false
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+module.exports = handler
+

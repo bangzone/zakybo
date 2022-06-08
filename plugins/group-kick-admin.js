@@ -1,24 +1,25 @@
-import { areJidsSameUser } from '@adiwajshing/baileys'
-let handler = async (m, { conn, participants }) => {
-    let users = m.mentionedJid.filter(u => !areJidsSameUser(u, conn.user.id))
-    let kickedUser = []
-    for (let user of users)
-        if (user.endsWith('@s.whatsapp.net') && !(participants.find(v => areJidsSameUser(v.id, user)) || { admin: true }).admin) {
-            const res = await conn.groupParticipantsUpdate(m.chat, [user], 'remove')
-            kickedUser.concat(res)
-            await delay(1 * 1000)
-        }
-    m.reply(`Succes kick ${kickedUser.map(v => '@' + v.split('@')[0])}`, null, { mentions: kickedUser })
-
+let handler = async (m, { conn, args }) => {
+let fs = require('fs')
+let stc = fs.readFileSync('./media/Mintakick.webp')
+  let ownerGroup = m.chat.split`-`[0] + '@s.whatsapp.net'
+  let users = m.mentionedJid.filter(u => !(u == ownerGroup || u.includes(conn.user.jid)))
+  for (let user of users) if (user.endsWith('@s.whatsapp.net')) await conn.groupRemove(m.chat, [user])
+  conn.fakeReply(m.chat, stc, '0@s.whatsapp.net', '*Nanti nangid*', 'status@broadcast')
 }
 handler.help = ['kick'].map(v => v + ' @user')
-handler.tags = ['owner']
-handler.command = /^(kick)$/i
+handler.tags = ['group']
+handler.command = /^(kick|\-)$/i
+handler.owner = true
+handler.mods = false
+handler.premium = false
+handler.group = true
+handler.private = false
 
 handler.admin = true
-handler.group = true
 handler.botAdmin = true
 
-export default handler
+handler.fail = null
+handler.limit = false
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+module.exports = handler
+
