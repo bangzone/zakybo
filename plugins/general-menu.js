@@ -39,7 +39,8 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
         setTimeout(resolve, 1000)
       }) * 1000
     }
-      let vn = './media/tante-tante.mp3'
+      let vn = './media/bot.mp3'
+    let vn = './media/tante-tante.mp3'
     let uptime = clockString(_uptime)
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
       return {
@@ -95,7 +96,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
    conn.sendButton(m.chat, `*${wish()}, ${name} 👋*`, text.trim(), await genProfile(conn, m), [['Speedtest', _p + 'ping'], ['Owner', _p + 'owner']], false, { quoted: fkon, contextInfo: { externalAdReply: { showAdAttribution: true,
 mediaType: 'VIDEO',
 mediaUrl: 'https://www.kibrispdr.org/dwn/7/yotsuba-nakano-wallpaper.jpg',
-title: 'Simple Bot Esm',
+title: 'zakybot-md',
 body: 'By zakybot-md',
 thumbnail: fs.readFileSync("./thumbnail.jpg"),
 sourceUrl: 'https://chat.whatsapp.com/FZEid847RlmJWNBMnSyXPI'
